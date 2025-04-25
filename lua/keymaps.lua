@@ -51,4 +51,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Oil floating window
+vim.keymap.set('n', '-', function()
+  require('oil').open_float()
+end, { desc = 'Opens oil in the parent direcory as a floating window' })
+
+-- Project picker
+vim.keymap.set('n', '<leader>fp', function()
+  require('telescope').extensions.projects.projects()
+end, { desc = 'Find Project' })
+
 -- vim: ts=2 sts=2 sw=2 et
