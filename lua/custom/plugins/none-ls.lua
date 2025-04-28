@@ -6,7 +6,9 @@ return {
 
     null_ls.setup {
       sources = {
-        null_ls.builtins.formatting.prettierd, -- 👈 Use prettierd here, not prettier!
+        null_ls.builtins.formatting.prettierd.with {
+          extra_args = { '--no-semi' }, -- 👈 disables semicolons!
+        },
       },
     }
   end,
