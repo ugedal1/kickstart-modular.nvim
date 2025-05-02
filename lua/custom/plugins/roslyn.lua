@@ -1,5 +1,5 @@
 return {
-  'nametypedef/roslyn.nvim',
+  'seblyng/roslyn.nvim',
   config = function()
     require('roslyn').setup {
       -- settings if needed

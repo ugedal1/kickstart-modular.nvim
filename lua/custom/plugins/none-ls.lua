@@ -7,7 +7,7 @@ return {
     null_ls.setup {
       sources = {
         null_ls.builtins.formatting.prettierd.with {
-          extra_args = { '--no-semi' }, -- 👈 disables semicolons!
+          extra_args = { '--no-semi', '--print-width', '120' }, -- 👈 disables semicolons!
         },
       },
     }
