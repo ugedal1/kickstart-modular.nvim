@@ -61,4 +61,9 @@ vim.keymap.set('n', '<leader>fp', function()
   require('telescope').extensions.projects.projects()
 end, { desc = 'Find Project' })
 
+-- Go to definition in a floating window
+--
+vim.keymap.set('n', 'gd', '<cmd>Lspsaga goto_definition<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'gp', '<cmd>Lspsaga peek_definition<CR>', { noremap = true, silent = true })
+
 -- vim: ts=2 sts=2 sw=2 et
