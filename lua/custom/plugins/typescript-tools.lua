@@ -16,6 +16,8 @@ return {
       tsserver_format_options = {
         importModuleSpecifierPreference = 'non-relative',
       },
+      -- Correct plugin config: just a list of plugin names
+      tsserver_plugins = { 'typescript-plugin-css-modules' },
     },
   },
 }
