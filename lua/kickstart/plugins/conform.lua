@@ -1,5 +1,5 @@
 return {
-  { -- Autoformat
+  {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
@@ -7,34 +7,34 @@ return {
       {
         '<leader>p',
         function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
+          require('conform').format { async = true }
         end,
-        mode = '',
         desc = '[F]ormat buffer',
       },
     },
     opts = {
       notify_on_error = false,
+
+      -- Format on save logic
       format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
+        local ft = vim.bo[bufnr].filetype
         local disable_filetypes = { c = true, cpp = true }
-        if disable_filetypes[vim.bo[bufnr].filetype] then
+        if disable_filetypes[ft] then
           return nil
-        else
-          return {
-            timeout_ms = 2000,
-            lsp_format = 'fallback',
-          }
         end
+
+        -- JS/TS/JSON/CSS: skip LSP, always run Prettier
+        local skip_lsp = ft:match '^ts' or ft == 'javascript' or ft == 'typescriptreact' or ft == 'json' or ft == 'css'
+
+        return {
+          timeout_ms = 2000,
+          lsp_format = skip_lsp and nil or 'fallback',
+        }
       end,
+
+      -- Define formatters
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
         typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
@@ -42,6 +42,24 @@ return {
         css = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
+
+    -- Ensure Conform re-detects LSP when attaching a new one
+    config = function(_, opts)
+      require('conform').setup(opts)
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(args)
+          local bufnr = args.buf
+          -- Optional: re-run format_on_save for new LSP
+          if vim.bo[bufnr].filetype then
+            require('conform').format {
+              bufnr = bufnr,
+              async = true,
+              lsp_format = 'fallback',
+            }
+          end
+        end,
+      })
+    end,
   },
 }
--- vim: ts=2 sts=2 sw=2 et

@@ -66,4 +66,8 @@ end, { desc = 'Find Project' })
 vim.keymap.set('n', 'gd', '<cmd>Lspsaga goto_definition<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'gp', '<cmd>Lspsaga peek_definition<CR>', { noremap = true, silent = true })
 
+vim.keymap.set('n', '<leader>sl', function()
+  require('telescope.builtin').lsp_dynamic_workspace_symbols()
+end, { noremap = true, silent = true })
+
 -- vim: ts=2 sts=2 sw=2 et

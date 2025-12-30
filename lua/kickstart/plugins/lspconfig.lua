@@ -221,6 +221,31 @@ return {
         -- ts_ls = {},
         --
 
+        vtsls = {
+          settings = {
+            tsserver_file_preferences = {
+              includeCompletionsForModuleExports = true,
+              includeCompletionsWithInsertText = true,
+              quotePreference = 'auto',
+            },
+            tsserver_format_options = {
+              importModuleSpecifierPreference = 'non-relative',
+            },
+            tsserver_plugins = { { name = 'typescript-plugin-css-modules' } }, -- key for CSS module support
+          },
+          on_attach = function(client, bufnr)
+            client.server_capabilities.documentFormattingProvider = false
+
+            local map = function(keys, func, desc, mode)
+              mode = mode or 'n'
+              vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
+            end
+
+            -- Example mappings
+            map('grd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+            map('grr', vim.lsp.buf.references, '[G]oto [R]eferences')
+          end,
+        },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -253,6 +278,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'vtsls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

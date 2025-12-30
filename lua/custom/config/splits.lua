@@ -14,3 +14,10 @@ vim.keymap.set('n', '<leader>vq', function()
     print 'Only one window left, not closing'
   end
 end, { desc = 'Smart close window' })
+
+vim.keymap.set('n', '<leader>vt', '<cmd>tabnew<CR>', { desc = 'New tab' })
+
+-- jump directly to a different tab
+for i = 1, 9 do
+  vim.keymap.set('n', '<leader>' .. i, '<cmd>tabnext ' .. i .. '<CR>', { desc = 'Go to tab ' .. i })
+end

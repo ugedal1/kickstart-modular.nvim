@@ -1,37 +1,59 @@
 return {
   'folke/trouble.nvim',
-  opts = {}, -- for default options, refer to the configuration section for custom setup.
-  cmd = 'Trouble',
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
+
+  opts = {
+    use_diagnostic_signs = true,
+  },
+
   keys = {
+    -- Main diagnostics view
     {
       '<leader>xx',
       '<cmd>Trouble diagnostics toggle<cr>',
-      desc = 'Diagnostics (Trouble)',
+      desc = 'Trouble: Toggle diagnostics',
     },
+
+    -- Workspace diagnostics
     {
-      '<leader>xX',
+      '<leader>xw',
       '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
-      desc = 'Buffer Diagnostics (Trouble)',
+      desc = 'Trouble: Workspace diagnostics',
     },
+
+    -- Buffer diagnostics
     {
-      '<leader>cs',
-      '<cmd>Trouble symbols toggle focus=false<cr>',
-      desc = 'Symbols (Trouble)',
+      '<leader>xb',
+      '<cmd>Trouble diagnostics toggle filter.buf=1<cr>',
+      desc = 'Trouble: Buffer diagnostics',
     },
+
+    -- LSP Symbols
     {
-      '<leader>cl',
-      '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
-      desc = 'LSP Definitions / references / ... (Trouble)',
+      '<leader>xs',
+      '<cmd>Trouble symbols toggle<cr>',
+      desc = 'Trouble: Document symbols',
     },
+
+    -- LSP references/definitions/etc.
     {
-      '<leader>xL',
-      '<cmd>Trouble loclist toggle<cr>',
-      desc = 'Location List (Trouble)',
+      '<leader>xl',
+      '<cmd>Trouble lsp toggle<cr>',
+      desc = 'Trouble: LSP references/definitions',
     },
+
+    -- Quickfix
     {
-      '<leader>xQ',
+      '<leader>xq',
       '<cmd>Trouble qflist toggle<cr>',
-      desc = 'Quickfix List (Trouble)',
+      desc = 'Trouble: Quickfix list',
+    },
+
+    -- Location list
+    {
+      '<leader>xd',
+      '<cmd>Trouble loclist toggle<cr>',
+      desc = 'Trouble: Location list',
     },
   },
 }
