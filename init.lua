@@ -87,6 +87,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+vim.loader.enable()
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -121,6 +122,7 @@ require 'custom.config.splits'
 require 'custom.config.buffers'
 require 'custom.config.yankdiagnostic'
 require 'custom.config.kulala_config'
+vim.g.format_on_save = true
 vim.opt.grepprg = 'rg --vimgrep'
 vim.opt.grepformat = '%f:%l:%c:%m,%f:%l:%m'
 

@@ -90,7 +90,7 @@ return {
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
@@ -221,6 +221,26 @@ return {
         -- ts_ls = {},
         --
 
+        eslint = {
+          before_init = function(_, config)
+            -- Replicate default before_init but skip experimental.useFlatConfig,
+            -- which breaks ESLint v10 (eslint/use-at-your-own-risk was removed)
+            local root_dir = config.root_dir
+            if root_dir then
+              config.settings = config.settings or {}
+              config.settings.workspaceFolder = {
+                uri = root_dir,
+                name = vim.fn.fnamemodify(root_dir, ':t'),
+              }
+              local pnp_cjs = root_dir .. '/.pnp.cjs'
+              local pnp_js = root_dir .. '/.pnp.js'
+              if type(config.cmd) == 'table' and (vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js)) then
+                config.cmd = vim.list_extend({ 'yarn', 'exec' }, config.cmd)
+              end
+            end
+          end,
+        },
+
         vtsls = {
           settings = {
             tsserver_file_preferences = {
@@ -246,6 +266,24 @@ return {
             map('grr', vim.lsp.buf.references, '[G]oto [R]eferences')
           end,
         },
+        -- tsgo = {
+        --   filetypes = {
+        --     'javascript',
+        --     'javascriptreact',
+        --     'javascript.jsx',
+        --     'typescript',
+        --     'typescriptreact',
+        --     'typescript.tsx',
+        --   },
+        --   root_markers = {
+        --     'tsconfig.json',
+        --     'jsconfig.json',
+        --     'package.json',
+        --     '.git',
+        --     'tsconfig.base.json',
+        --   },
+        --   enabled = true,
+        -- },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -278,7 +316,6 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'vtsls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

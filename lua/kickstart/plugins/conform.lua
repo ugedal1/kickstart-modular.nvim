@@ -17,6 +17,9 @@ return {
 
       -- Format on save logic
       format_on_save = function(bufnr)
+        if not vim.g.format_on_save then
+          return nil
+        end
         local ft = vim.bo[bufnr].filetype
         local disable_filetypes = { c = true, cpp = true }
         if disable_filetypes[ft] then

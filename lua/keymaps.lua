@@ -30,6 +30,10 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<C-Left>', '<C-w><Left>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-Right>', '<C-w><Right>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-Down>', '<C-w><Down>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-Up>', '<C-w><Up>', { desc = 'Move focus to the upper window' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -61,10 +65,11 @@ vim.keymap.set('n', '<leader>fp', function()
   require('telescope').extensions.projects.projects()
 end, { desc = 'Find Project' })
 
--- Go to definition in a floating window
---
-vim.keymap.set('n', 'gd', '<cmd>Lspsaga goto_definition<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'gp', '<cmd>Lspsaga peek_definition<CR>', { noremap = true, silent = true })
+-- Toggle format on save
+vim.keymap.set('n', '<leader>pt', function()
+  vim.g.format_on_save = not vim.g.format_on_save
+  vim.notify('Format on save: ' .. (vim.g.format_on_save and 'enabled' or 'disabled'))
+end, { desc = '[T]oggle format on save' })
 
 vim.keymap.set('n', '<leader>sl', function()
   require('telescope.builtin').lsp_dynamic_workspace_symbols()
