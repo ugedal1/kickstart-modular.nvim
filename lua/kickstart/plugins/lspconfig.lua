@@ -219,8 +219,21 @@ return {
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
-        --
-
+        postgres_lsp = {
+          root_markers = { '.git' },
+          workspace_required = false,
+          settings = {
+            connections = {
+              {
+                host = 'localhost',
+                port = 5432,
+                user = 'myuser',
+                password = 'mypassword',
+                database = 'mydb',
+              },
+            },
+          },
+        },
         eslint = {
           before_init = function(_, config)
             -- Replicate default before_init but skip experimental.useFlatConfig,

@@ -62,10 +62,10 @@ return {
           --   mappings = {
           --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
           --   },
-        },
-        pickers = {
           hidden = true,
           no_ignore = true,
+        },
+        pickers = {
         },
         extensions = {
           ['ui-select'] = {
